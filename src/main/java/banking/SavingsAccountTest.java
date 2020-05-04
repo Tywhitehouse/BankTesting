@@ -15,17 +15,29 @@ class SavingsAccountTest {
 	private double newbalance;
 	private String desc;
 	private SavingsAccount savings;
+	private double interestrate;
 	
 	
 	@BeforeEach
 	void setup() {
 		bank = new Bank("My Bank");
-		//SavingsAccount savings = new SavingsAccount(customer, initialbalance, desc);
 	}
+	
+	
+	@Test
+	// Adding the accounts monthly interest rate
+	@DisplayName("SavingsAccount.addInterestTransaction Test")
+	void AddTheInterest() {
+		final double initialbalance = savings.getBalance();
+		final double interestrate = savings.getDefaultInterestRate();
+		final double newbalance = (initialbalance*interestrate);
+		assertEquals(newbalance, initialbalance * interestrate);
+	}
+	
 	
 	@Test
 	// $10 deposit works
-	@DisplayName("SavingsAccount.deposit Tests")
+	@DisplayName("SavingsAccount.deposit Test")
 	void DepositSavingsAccount() {
 		final double initialbalance = savings.getBalance();
 		final double amount = 10;
@@ -35,7 +47,7 @@ class SavingsAccountTest {
 	}
 	
 	@Test
-	@DisplayName("SavingsAccount.deposit Tests")
+	@DisplayName("SavingsAccount.deposit Test")
 	// -$10 deposit and account remains unchanged
 	void DepositSavingsAccountNegative() {
 		final double initialbalance = savings.getBalance();
@@ -46,7 +58,7 @@ class SavingsAccountTest {
 	}
 	
 	@Test
-	@DisplayName("SavingsAccount.deposit Tests")
+	@DisplayName("SavingsAccount.deposit Test")
 	// $0 deposit and account remains unchanged
 	void DepositSavingsAccountZero() {
 		final double initialbalance = savings.getBalance();
@@ -58,7 +70,7 @@ class SavingsAccountTest {
 	
 	// withdraw of $10 works
 	@Test
-	@DisplayName("SavingsAccount.withdraw Tests")
+	@DisplayName("SavingsAccount.withdraw Test")
 	void WithdrawSavingsAccount() {
 		final double initialbalance = savings.getBalance();
 		final double amount = 10;
@@ -69,7 +81,7 @@ class SavingsAccountTest {
 	
 	// withdraw of $-10 does not work
 	@Test
-	@DisplayName("SavingsAccount.withdraw Tests")
+	@DisplayName("SavingsAccount.withdraw Test")
 	void WithdrawSavingsAccountNegative() {
 		final double initialbalance = savings.getBalance();
 		final double amount = -10;
@@ -80,7 +92,7 @@ class SavingsAccountTest {
 	
 	// withdraw of $0 changes nothing
 	@Test
-	@DisplayName("SavingsAccount.withdraw Tests")
+	@DisplayName("SavingsAccount.withdraw Test")
 	void WithdrawSavingsAccountZero() {
 		final double initialbalance = savings.getBalance();
 		final double amount = 0;
