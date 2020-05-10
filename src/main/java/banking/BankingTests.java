@@ -20,6 +20,7 @@ public class BankingTests {
         Customer customer = bank.getCustomer( custID );
         Account savings = customer.addSavingsAccount( 10.00, "My Savings Account" );
     }
+    
     @Test
     public final void testMain() {
         String expectedResult = "Main running sucessfully";
@@ -34,7 +35,7 @@ public class BankingTests {
         }
         assertEquals("Should run without throwing an error.", expectedResult, actualResult);
     }
-    //Account tests
+//Account tests
 
     // Test a deposit of $10.00 works:
     @Test
@@ -126,7 +127,7 @@ public class BankingTests {
                         (initialBalance) + "but was " + finalBalance );
     }
 
-    // Customer tests
+// Customer tests
 
     //Remove the account from user then try to get it, should be null.
     @Test
@@ -137,7 +138,7 @@ public class BankingTests {
         assertNull(customerAccount, "Did not receive the expected null account value.");
     }
     
-    // Bank tests
+// Bank tests
     @Test
     public void testBankAddCustomer() {
         String expFirstName = "Blevins";
@@ -154,7 +155,7 @@ public class BankingTests {
    
     }
     
-    
+//Transaction tests
 
 }
 
