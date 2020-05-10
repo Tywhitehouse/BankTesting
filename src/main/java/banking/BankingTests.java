@@ -1,5 +1,7 @@
 package banking;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +20,20 @@ public class BankingTests {
         Customer customer = bank.getCustomer( custID );
         Account savings = customer.addSavingsAccount( 10.00, "My Savings Account" );
     }
+    @Test
+    public final void testMain() {
+        String expectedResult = "Main running sucessfully";
+        String actualResult;
 
+        try{
+            Bank.main(new String[0]);
+            actualResult = "Main running sucessfully";
+        }
+        catch (RuntimeException e){
+            actualResult = e.toString();
+        }
+        assertEquals("Should run without throwing an error.", expectedResult, actualResult);
+    }
     //Account tests
 
     // Test a deposit of $10.00 works:
@@ -111,8 +126,7 @@ public class BankingTests {
                         (initialBalance) + "but was " + finalBalance );
     }
 
-
-    //Customer tests
+    // Customer tests
 
     //Remove the account from user then try to get it, should be null.
     @Test
@@ -122,5 +136,25 @@ public class BankingTests {
         var customerAccount = customer.getAccount("1");
         assertNull(customerAccount, "Did not receive the expected null account value.");
     }
+    
+    // Bank tests
+    @Test
+    public void testBankAddCustomer() {
+        String expFirstName = "Blevins";
+        String expLastName = "Tester";
+
+        String returnedID = bank.addCustomer(expLastName,expFirstName);
+        Customer returnedCustomer = bank.getCustomer(returnedID);
+
+        String returnedFName = returnedCustomer.getFirstName();
+        assertEquals(" The passed Customer name equals the expected Customer name ", expFirstName, returnedFName);
+
+        String returnedLName = returnedCustomer.getLastName();
+        assertEquals(" The passed Customer last name equals the expected Customer last name. ", expLastName,returnedLName);
+   
+    }
+    
+    
 
 }
+
