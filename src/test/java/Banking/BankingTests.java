@@ -1,34 +1,38 @@
 package banking;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+import java.time.LocalDateTime;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 
-public class BankingTests {
-
+public class BankingTests 
+{
     private Bank bank;
     private Customer customer;
     private String custID;
     private Account account;
-
-    // Test Fixture:
+    
     @BeforeEach
-    void setUp () {
+    void setUp () 
+    {
         bank = new Bank( "My Bank" );
         custID = bank.addCustomer("Bebop", "Rocksteady");
         Customer customer = bank.getCustomer( custID );
         Account savings = customer.addSavingsAccount( 10.00, "My Savings Account" );
     }
     
+    //checks if main actually runs
     @Test
-    public final void testMain() 
-    {
+    public final void testMain() {
         String expectedResult = "Main running sucessfully";
         String actualResult;
 
-        try
-        {
+        try{
             Bank.main(new String[0]);
             actualResult = "Main running sucessfully";
         }
@@ -37,7 +41,39 @@ public class BankingTests {
         }
         assertEquals("Should run without throwing an error.", expectedResult, actualResult);
     }
-//Account tests
+    
+    //Bank tests
+    @Test
+    public void testBankAddCustomer() {
+        String expFirstName = "Francis";
+        String expLastName = "Tester";
+
+        String returnedID = bank.addCustomer(expLastName,expFirstName);
+        Customer returnedCustomer = bank.getCustomer(returnedID);
+
+        String returnedFName = returnedCustomer.getFirstName();
+        assertEquals(" The passed Customer name equals the expected Customer name ", expFirstName, returnedFName);
+
+        String returnedLName = returnedCustomer.getLastName();
+        assertEquals(" The passed Customer last name equals the expected Customer last name. ", expLastName,returnedLName);
+    }
+    
+     @Test
+     // need to know implementation for proper testing 
+    public void testBankGetAllCustomers() {
+        SortedSet<Customer> customerList = new TreeSet();
+        Customer customer1 = new Customer(bank, "Tester1","Bletus");
+        Customer customer2 = new Customer(bank, "Tester2","Sean");
+
+        customerList.add(customer1);
+        customerList.add(customer2);
+        
+        SortedSet customerResult = bank.getAllCustomers();
+
+        assertEquals(" customer list equals expected size. ", customerResult,customerList);
+    }
+   
+    //Account tests
 
     // Test a deposit of $10.00 works:
     @Test
@@ -51,8 +87,8 @@ public class BankingTests {
                 "Balance should be " +
                         (initialBalance+amount) + "but was " + finalBalance );
     }
-
-    // Test a deposit of $0.00 has no impact:
+    
+   // Test a deposit of $0.00 has no impact:
     @Test
     @DisplayName("Account.deposit Tests")
     void depositShouldNotImpactBalance () {
@@ -64,8 +100,8 @@ public class BankingTests {
                 "Balance should be " +
                         (initialBalance) + "but was " + finalBalance );
     }
-
-    // Test a deposit of $-5.00 is rejected and balance remains untouched:
+    
+     // Test a deposit of $-5.00 is rejected and balance remains untouched:
     @Test
     @DisplayName("Account.deposit Tests")
     void negativeDepositShouldNotBeAccepted () {
@@ -129,54 +165,15 @@ public class BankingTests {
                         (initialBalance) + "but was " + finalBalance );
     }
 
-// Customer tests
+
+    //Customer tests
 
     //Remove the account from user then try to get it, should be null.
     @Test
     @DisplayName("Customer.removeAccount Tests")
-    void removeAccountRemovesAccountFromCustomer () 
-    {
+    void removeAccountRemovesAccountFromCustomer () {
         customer.removeAccount("1");
         var customerAccount = customer.getAccount("1");
         assertNull(customerAccount, "Did not receive the expected null account value.");
     }
-    
-// Bank tests
-    
-    @Test
-    public void BankAddCustomer() 
-    {
-        String expFirstName = "Blevins";
-        String expLastName = "Tester";
-
-        String returnedID = bank.addCustomer(expLastName,expFirstName);
-        Customer returnedCustomer = bank.getCustomer(returnedID);
-
-        String returnedFName = returnedCustomer.getFirstName();
-        assertEquals(" The passed Customer name equals the expected Customer name ", expFirstName, returnedFName);
-
-        String returnedLName = returnedCustomer.getLastName();
-        assertEquals(" The passed Customer last name equals the expected Customer last name. ", expLastName,returnedLName);
-   
-    }
-    
-    @Test
-    public void BankConstructorNull() 
-    {
-        try 
-        {
-            new Bank(null);
-            fail("Should not have gotten to this point.");
-        }
-        catch (IllegalArgumentException e) 
-        {
-
-        }
-        catch (RuntimeException e) 
-        {
-            fail("Should have thrown IllegalArgumentException, but threw " + e);
-        }
-    }
-    
 }
-
