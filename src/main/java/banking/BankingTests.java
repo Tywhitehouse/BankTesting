@@ -22,11 +22,13 @@ public class BankingTests {
     }
     
     @Test
-    public final void testMain() {
+    public final void testMain() 
+    {
         String expectedResult = "Main running sucessfully";
         String actualResult;
 
-        try{
+        try
+        {
             Bank.main(new String[0]);
             actualResult = "Main running sucessfully";
         }
@@ -132,15 +134,18 @@ public class BankingTests {
     //Remove the account from user then try to get it, should be null.
     @Test
     @DisplayName("Customer.removeAccount Tests")
-    void removeAccountRemovesAccountFromCustomer () {
+    void removeAccountRemovesAccountFromCustomer () 
+    {
         customer.removeAccount("1");
         var customerAccount = customer.getAccount("1");
         assertNull(customerAccount, "Did not receive the expected null account value.");
     }
     
 // Bank tests
+    
     @Test
-    public void testBankAddCustomer() {
+    public void BankAddCustomer() 
+    {
         String expFirstName = "Blevins";
         String expLastName = "Tester";
 
@@ -155,7 +160,23 @@ public class BankingTests {
    
     }
     
-//Transaction tests
+    @Test
+    public void BankConstructorNull() 
+    {
+        try 
+        {
+            new Bank(null);
+            fail("Should not have gotten to this point.");
+        }
+        catch (IllegalArgumentException e) 
+        {
 
+        }
+        catch (RuntimeException e) 
+        {
+            fail("Should have thrown IllegalArgumentException, but threw " + e);
+        }
+    }
+    
 }
 
